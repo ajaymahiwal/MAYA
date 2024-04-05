@@ -1,0 +1,35 @@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar-par">
+    <a class="navbar-brand" href="/" id="main-logo-par">
+      <!-- <i class="fa-regular fa-compass"></i> -->
+    <img src="/img/maya.jpg" alt="" srcset="" id="main-logo" class="">
+    
+    <!-- <h4>Columbus</h4> -->
+  </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <!-- <a class="nav-item nav-link " href="/">Home <span class="sr-only">(current)</span></a> -->
+        <a class="nav-item nav-link" href="/listings/#all-cards">Show Posts</a>
+        <% if (currUser) { %>
+          <a class="nav-item nav-link create-new" href="/listings/new/#new">Create New Post</a>
+        <% } %>
+        <!-- <a class="nav-item nav-link" href="/experiences/online">Online Experiences</a> -->
+      </div>
+
+        <div class="user-in-out navbar-nav">
+        <% if (!currUser) { %>
+            <a class="nav-item nav-link" href="/signup" id="sign-up">Sign Up</a>
+            <!-- <a class="nav-item nav-link" href="/login">Log In</a> -->
+        <% } else { %>
+          <!-- <a class="nav-item nav-link" href="/logout">Log Out</a> -->
+          <a class="nav-item nav-link" href="/user/profile/<%= currUser._id %>/#profile">
+            <!-- <i class="fa-solid fa-user fa-xl" style="color: #ff385c;"></i> -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40" fill="rgba(255, 56, 92,1)"><path d="M4 22C4 17.5817 7.58172 14 12 14C16.4183 14 20 17.5817 20 22H4ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13Z"></path></svg>
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </nav>

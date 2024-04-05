@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAYA | Create a new post</title>
+    <%- include("../includes/head.ejs") %>
+    <style>
+        .new-place-title{
+            text-align: center;
+            margin: 3rem 0 1rem;
+            color: #ff385c;
+            text-decoration: underline 2px wavy #ff385c;
+        }
+
+        form {
+            padding: 0 8%;
+            margin: 1rem 2rem 5rem;
+            /* height: 100%; */
+            /* display: none; */
+        }
+        
+        .save-btn{
+            background-color: rgb(18, 236, 18);
+            color: white;
+            font-size: 1.5rem;
+            padding: .2rem 2rem;
+            display: block;
+            width: 27%;
+            margin: 1rem auto;
+            border-radius: 2.5rem;
+        }
+        @media(width<=600px){
+            .save-btn{
+                width: 50%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <%-include('../includes/navbar.ejs')%>
+
+        <h1 class="new-place-title" id="new">Create a New Post</h1>
+        <form action="/listings" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="" class="form-label">Title</label>
+                <input type="text" placeholder="Enter Title Or Hook for Post" name="itemDetails[title]" class="form-control" required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Caption</label>
+            <textarea rows="5" placeholder="Enter Description" name="itemDetails[description]" class="form-control" required> </textarea>
+            <div class="invalid-feedback">
+                Looks bad!
+              </div>
+            </div>
+            
+            <!-- <div class="mb-3">
+                <label for="" class="form-label">Image Url</label>
+            <input type="text" placeholder="Enter Image URL" name="itemDetails[image][url]" class="form-control"> -->
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Image Upload</label>
+            <input type="file" placeholder="Enter Image URL" name="itemDetails[image][url]" class="form-control">
+            </div>
+            
+
+            <br>
+            <br>
+
+            <button class="save-btn">Save</button>
+        </form>
+
+
+
+        <%- include('../includes/footer') %>
+
+</body>
+
+</html>

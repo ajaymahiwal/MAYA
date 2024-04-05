@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+
+    <title><%= userProfile.name.toUpperCase() %>'s Profile</title>
+    <link rel="stylesheet" href="/css/profile-and-common.css">
+    <%- include("../includes/head") %>
+
+
+    <style>
+      main {
+        margin-block: 2rem;
+        padding-left: 6%;
+        padding-right: 6%;
+        padding-bottom: 10%;
+        /* min-height: 70dvh; */
+      }
+      .sec {
+        width: 100%;
+        margin-bottom: 2rem;
+      }
+      .user-img {
+        border: 2px solid black;
+        height: 9vw;
+        width: 9vw;
+        border-radius: 7vw;
+        text-align: center;
+        object-fit: contain;
+      }
+      #sec-1 {
+        padding-top: .5rem;
+        border: 2px solid #ff385c;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        row-gap: 1rem;
+      }
+      /* #sec-1 > div {
+        border: 2px solid blue;
+      } */
+      .user-info {
+        /* border: 2px solid red; */
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .user-name {
+        text-align: center;
+        font-size: 1.8rem;
+        word-break: break-all;
+        font-weight: 600;
+        color: #ff385c;
+      }
+      .user-bio {
+        padding: 1rem;
+        width: 80%;
+        min-height: inherit;
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+
+      /* Section-2 */
+      #sec-2 nav ul {
+        display: flex;
+        overflow-x: auto;
+        /* flex-wrap: wrap; */
+        column-gap: 2rem;
+        row-gap: 1rem;
+        padding: 1rem;
+      }
+      #nav-links::-webkit-scrollbar {
+        width: 3px !important;
+        height: 3px !important;
+    }
+
+    #nav-links {
+        overflow: -moz-scrollbars-none;
+    }
+
+    #nav-links {
+        -ms-overflow-style: none;
+    }
+
+    #nav-links::-webkit-scrollbar-thumb {
+        background-color: black;
+        border-radius:4px;
+    }
+
+      #sec-2 nav ul li {
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 3px 1rem;
+        text-wrap: nowrap;
+      }
+      .option-result {
+        width: 100%;
+        /* border: 2px solid green; */
+        min-height: 30vw;
+      }
+      .option-result > div {
+        min-height: 10vw;
+      }
+      
+      .active {
+        background-color: #ff385c;
+        color: white;
+        border-radius: 1rem;
+        height: fit-content;
+      }
+
+      .all-task {
+        text-align: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content:space-around;
+        padding: 0.5rem 1rem;
+      }
+      .all-task > div {
+        border: 2px solid #ff385c;
+        padding: 1vw;
+        width: 31%;
+        /* height: fit-content; */
+      }
+      .all-task > div > h3 {
+        text-transform: capitalize;
+        font-size: 2rem;
+        font-weight: 500;
+      }
+      .show-in-detail {
+        display: block;
+        margin-top: 1vw;
+        text-decoration: underline 2px #ff385c;
+        font-weight: 500;
+      }
+
+      .logout{
+        margin-top: 8rem;
+      }
+      .logout:hover{
+        background-color: rgb(179, 5, 5);
+      }
+      .logout:active{
+        background-color: rgb(179, 5, 5);
+      }
+
+      .hide {
+        display: none;
+      }
+
+
+
+
+      /* confirm box related */
+      .green-btn {
+          display: block;
+          margin: 1vw auto;
+          border: none;
+          border-radius: 3rem;
+          padding: 0.5rem 4rem;
+          color: white;
+          font-size: 1.2rem;
+          background-color: #ff385c;
+          text-align: center !important;
+        }
+        .del-btn{
+          color: white !important;
+          background-color: rgba(255, 0, 0, 0.89);
+        }
+        .red-btn{
+          background-color: rgba(255, 0, 0, 0.89);
+        }
+      #confirmBox{
+            background-color:black;
+            color: white;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 70vw;
+            padding: 2vw;
+            z-index: 2;
+            text-align: center;
+            border-radius: 1rem;
+        }
+        .confirm-box{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #confirmBox > div{
+            margin: 2vw 0;
+            display: flex;
+            gap: 2vw;
+        }
+        .hide{
+            display: none !important;
+        }
+        .focus-eff{
+            animation: focusEff .1s;
+        }
+        @keyframes focusEff {
+            0%{
+                /* transform: translateY(0px); */
+                transform: translate(-50%,-50%);
+            }
+            50%{
+                transform: translate(-40%,-50%);
+            }
+            100%{
+                transform: translate(-50%,-50%);
+            }
+        }
+
+        @media(width<=650px){
+            .task-des{
+            padding-inline-start: 0ch;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        .main-title{
+            font-size: 2rem;
+            border-bottom: 2px solid #ff385c;
+        }
+        .highlight{
+            background-color: yellow;
+        }
+        .lists-with-task{
+            margin-top: 2rem;
+        }
+        .green-btn {
+          margin: 1rem auto;
+          padding: 0.5rem 2rem;
+          font-size: 1.2rem;
+        }
+        .flex{
+            flex-wrap: wrap;
+        }
+        }
+
+        @media(width<=500px){
+        #confirmBox .green-btn {
+          margin: 1rem auto;
+          padding: .4rem 2rem;
+          font-size: 1rem;
+        }
+        }
+        @media(width<=360px){
+        #confirmBox .green-btn {
+          margin: .2rem auto;
+          padding: .1rem 2rem;
+          font-size: 1rem;
+        }
+        #confirmBox{
+            padding: 1rem;
+        }
+        #confirmBox > div{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        }
+
+
+
+
+
+
+
+
+
+      @media(width<=800px){
+        .all-task > div {
+        border: 2px solid #ff385c;
+        padding: 1vw;
+        width: 48%;
+        /* height: fit-content; */
+      }
+      .user-img {
+        border: 2px solid black;
+        height: 15vw;
+        width: 15vw;
+        border-radius: 15vw;
+      }
+      #sec-2 nav ul {
+        padding: 5px;
+      }
+      }
+
+
+      @media(width<=650px){
+        .user-img {
+        border: 2px solid black;
+        height: 15vw;
+        width: 15vw;
+        border-radius: 15vw;
+      }
+      html{
+        font-size: 14px;
+      }
+      }
+
+
+      @media(width<=550px){
+        .all-task > div {
+        border: 2px solid #ff385c;
+        padding: 1vw;
+        width: 98%;
+        /* height: fit-content; */
+      }
+      .user-info {
+        
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .user-img {
+        border: 2px solid black;
+        height: 20vw;
+        width: 20vw;
+        border-radius: 15vw;
+      }
+      .user-name {
+        font-size: 1.7rem;
+        font-weight: 500;
+        color: #ff385c;
+      }
+      .user-bio {
+        padding: 1rem;
+        width: 100%;
+        min-height: 10rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+      .green-btn-adv{
+        padding: .2rem 2rem;
+        font-size: 1.2rem;
+      }
+      }
+
+      @media (width<=400px) {
+        .user-img {
+        border: 2px solid black;
+        height: 24vw;
+        width: 24vw;
+        border-radius: 15vw;
+      }
+      }
+
+
+      .user-stat{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        border-top: 2px solid #ff385c;
+        border-bottom: 2px solid #ff385c;
+        
+        text-align: center;
+      }
+      .user-stat > div{
+        width: 30%;
+        /* border: 2px solid black; */
+      }
+      .posts-ref{
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .posts-ref:hover{
+        color: black;
+        text-decoration: underline;
+      }
+
+      
+.green-btn-adv-1 {
+    display: block;
+    margin: 2vw auto;
+    border: none;
+    border-radius: 3rem;
+    padding: 0.3rem 3rem;
+    color: white;
+    font-size: 1.3rem;
+    background-color: #ff385c;
+    width: fit-content;
+  }
+  @media(width<=800px){
+    .green-btn-adv-1{
+        padding: .2rem 3rem;
+      }
+  }
+  @media(width<=550px){
+    .green-btn-adv-1{
+        padding: .2rem 2rem;
+        font-size: 1.1rem;
+      }
+  }
+  
+    </style>
+  </head> 
+  <body>
+    <%-include('../includes/navbar.ejs')%>
+
+    
+    <% if (successMsg && successMsg.length){ %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= successMsg %>  
+          </div>
+    <% } %>
+
+    <% if (errorMsg && errorMsg.length){ %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= errorMsg %>  
+          </div>
+    <% } %>
+
+    <main id="profile">
+      <section class="sec" id="sec-1">
+        <div class="user-info">
+          <img src="<%= userProfile.image %>" alt="Error due to some issue profile photo is not visible,Please Reload" class="user-img" referrerpolicy="no-referrer">
+          <!-- <div class="user-img"></div> -->
+          <h2 class="user-name txt-cap"><%= userProfile.name %></h2>
+        </div>
+        <div class="user-bio">
+          <% if (userProfile.bio && userProfile.bio.length) { %>
+          <p><%= userProfile.bio %></p>
+          <% } else{%>
+          <p>Hello <%= userProfile.name %>👋, Write Your Bio Here 👀</p>
+          <% } %>
+        </div>
+
+        <div class="user-stat">
+          <div id="post-sec">
+              <a href="#posts" class="posts-ref">
+              <div><%= (listings && listings.length) ? listings.length : 0%> </div>
+              <div>Post</div>
+            </a>
+            </div>
+          <div id="followers-sec" class="posts-ref">
+            <div><%= (userProfile && userProfile.followers?.length) ? userProfile.followers.length : 0%> </div>
+            <div>Followers</div>
+          </div>
+          <div id="followings-sec" class="posts-ref">
+            <div><%= (userProfile && userProfile.followings?.length) ? userProfile.followings.length : 0%> </div>
+            <div>Following</div>
+          </div>
+        </div>
+        
+        <% if (currUser && currUser.id == userProfile.id) { %>
+          <a href="/user/profile/<%= userProfile._id %>/edit/#profile" class="green-btn-adv-1">Edit Profile</a>         
+        <% } else{%>
+            <% if (currUser) { %>
+              <% if (currUser.followings && currUser.followings.length && currUser.followings.includes(userProfile.id)) { %>
+                <button class="green-btn-adv-1 following follow">Following</button>
+                <% } else{%>
+                  <button class="green-btn-adv-1 follow">Follow</button>
+                  <% } %>
+            <% } else{%>
+              <button class="green-btn-adv-1 follow">Follow</button>
+            <% } %>
+        <% } %>
+
+      </section>
+
+
+      <section class="sec" id="sec-2">
+        <nav>
+          <ul id="nav-links">
+            <li class="active" id="0">User Posts</li>
+            <li id="1">Added Comments</li>
+            <!-- <li id="2">Uncomplete Tasks</li>
+            <li id="3">Upcoming Tasks</li>
+            <li id="4">Lists</li> -->
+          </ul>
+        </nav>
+        <div class="option-result" id="option-result-par">
+          <div class="all-task" id="posts">
+            <% if (listings && listings.length) { %> 
+            <%for(let i=listings.length-1;i>=0;i--){%>
+            <div>
+              <h3><%= listings[i].title %></h3>
+              <a
+                href="/listings/<%= listings[i]._id %>"
+                target="_blank"
+                class="show-in-detail"
+                >Show In Detail</a
+              >
+            </div>
+            <% } %> 
+            <% } else{%>
+              <!-- use image like github, no issue section mein vala image vo cartoon and fox -->
+              <div>
+                <h3>
+                  No Result Found !
+                </h3>
+              </div>
+            <% } %>
+          </div>
+          <div class="all-task hide">
+            <% if (reviews && reviews.length) { %> 
+              <%for(let i=reviews.length-1;i>=0;i--){%>
+              <div>
+                <!-- <p>
+                    <% for( let star = 0; star < reviews[i].rating; star++ ) { %>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="rgba(240,187,64,1)"><path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z"></path></svg>
+                    <% } %>
+                </p> -->
+                <p class="txt-cap"><%= reviews[i].comment %></p>
+                <a
+                  href="/listings/<%= reviews[i].postId %>"
+                  target="_blank"
+                  class="show-in-detail"
+                  >Show Comment</a
+                >
+              </div>
+              <% } %>  
+              <% } else{%>
+                <!-- use image like github, no issue section mein vala image vo cartoon and fox -->
+                <div>
+                  <h3>
+                    No Result Found !
+                  </h3>
+                </div>
+              <% } %>
+          </div>
+        </div>
+      </section>
+
+      <% if (currUser && currUser.id == userProfile.id) { %>
+        <section id="sec-3">
+          <div class="green-btn-adv logout del-btn">LogOut Me :)</div>
+          <div id="confirmBox" class="confirm-box hide">
+            <h1>Do You Want To LogOut ?</h1>
+            <div>
+                <form action="/logout?_method=DELETE" method="post">
+                    <button class="green-btn del-btn">Yes,I want</button>
+                </form>
+                <button class="green-btn" id="no-btn">No</button>
+            </div>
+          </div>
+        </section>
+      <% } %>
+
+    </main>
+
+    
+
+
+    <script>
+        let navLinks = document.getElementById("nav-links");
+        let optionResult = document.getElementById("option-result-par");
+      // console.dir(navLinks);
+
+        navLinks.addEventListener('click',(e)=>{
+            // console.log(e.target.nodeName)
+
+            if((!e.target.classList.contains("active")) && (e.target.nodeName == 'LI')){
+              let idx = e.target.getAttribute("id");
+              // console.log(idx);
+              for(let i=0;i<navLinks.children.length;i++){
+                if(i == idx){
+                  navLinks.children[i].classList.add("active");
+                }else{
+                  navLinks.children[i].classList.remove("active");
+                }
+              }
+
+              for(let i=0;i<optionResult.children.length;i++){
+                if(i == idx){
+                  optionResult.children[i].classList.remove("hide");
+                }else{
+                  if(!optionResult.children[i].classList.contains("hide")){
+                    optionResult.children[i].classList.add("hide");
+                  }
+                }
+              }
+            }
+        })
+    </script>
+
+    <script>
+       let delBtn = document.querySelector('.del-btn');
+        let confirmBox = document.querySelector('#confirmBox');
+
+
+       if(delBtn){
+        delBtn.addEventListener('click',(e)=>{
+            confirmBox.classList.toggle("hide");
+
+
+            if(!confirmBox.classList.contains('hide')){
+            window.addEventListener('click',(e)=>{
+                // console.log(e.target);
+                if((e.target != confirmBox) && (e.target != delBtn) ){
+                    confirmBox.classList.add('focus-eff');
+                    if(confirmBox.classList.contains('focus-eff')){
+                        setTimeout(()=>{
+                            // console.log('effect class is deleted !');
+                            confirmBox.classList.remove('focus-eff');
+                        },500);
+                    }
+                }
+            })
+        }
+        })
+       }
+
+        let noBtn = document.querySelector("#no-btn");
+        if(noBtn){
+          noBtn.addEventListener('click',(e)=>{
+            confirmBox.classList.add("hide");
+        })
+        }
+        
+    
+    </script>
+
+    <!-- follow feature -->
+    <script>
+      let followBtns = document.getElementsByClassName("follow");
+      // console.log(followBtns.length)
+      // console.log(followBtns)
+      for(let i=0;i<followBtns.length;i++){
+        // console.log(followBtns[i])
+        followBtns[i].addEventListener("click",(e)=>{
+          // console.log("btn clicked")
+        if(`<%=currUser%>`){
+          if(followBtns[i].classList.contains("following")){
+
+          followBtns[i].classList.remove("following");
+          // followBtns[i].innerText = "Follow";
+
+          followBtns[i].disabled = true;
+
+          fetch("/user/follow-unfollow",{
+            method:"DELETE",
+            headers:{
+              'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+              fanID:`<%=currUser?.id%>`,
+              starID:`<%=userProfile?.id%>`
+            }),
+          }).then(response=>{
+            if(response.ok){
+              console.log("unfollow request successful.")
+              window.location.href = `/user/profile/<%=userProfile.id%>`;
+            }else{
+              console.log("unfollow request failed.")
+            }
+          })
+
+          
+        }else{
+          followBtns[i].classList.add("following");
+          // followBtns[i].innerText = "Following";
+          followBtns[i].disabled = true;
+
+          fetch("/user/follow-unfollow",{
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+              fanID:`<%=currUser?.id%>`,
+              starID:`<%=userProfile?.id%>`
+            }),
+          }).then(response=>{
+            if(response.ok){
+              console.log("follow request successful.")
+              window.location.href = `/user/profile/<%=userProfile.id%>`;
+            }else{
+              console.log("follow request failed.")
+            }
+          })
+
+
+        }
+        }else{
+          window.location.href = "/user-is-not-login";
+        }
+      })
+      }
+    </script>
+
+
+    <!-- redirection to see followers and other -->
+    <script>
+      let followers = document.getElementById("followers-sec");
+      let followings = document.getElementById("followings-sec");
+      // let posts = document.getElementById("post-sec");
+
+      followers.addEventListener("click",(e)=>{
+        window.location.href = `/user/profile/<%=userProfile.id%>/followers`;
+      });
+      followings.addEventListener("click",(e)=>{
+        window.location.href = `/user/profile/<%=userProfile.id%>/followings`;
+      });
+   
+    </script>
+
+  </body>
+</html>

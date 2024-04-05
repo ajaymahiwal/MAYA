@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Your Place On MAYA</title>
+    <%- include("../includes/head.ejs") %>
+    <style>
+       
+
+        form input,textarea{
+            width: 100%;
+        }
+        form {
+            padding: 0 6%;
+            margin: 1rem 2rem 5rem;
+            /* height: 100%; */
+            /* display: none; */
+        }
+        .btn{
+            background-color: rgb(241, 75, 63) !important;
+            border: none;
+            padding-inline: 2rem;
+        }
+        .page-title{
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .list-img{
+            width: 100%;
+        }
+        .save-btn{
+            background-color: rgb(18, 236, 18);
+            color: white;
+            font-size: 1.5rem;
+            padding: .2rem 2rem;
+            display: block;
+            width: 30%;
+            margin: 1rem auto;
+            border-radius: 2.5rem;
+        }
+        @media(width<=900px){
+            .save-btn{
+                width: 40%;
+            }
+        }
+        @media(width<=700px){
+            .save-btn{
+                width: 45%;
+            }
+        }
+        @media(width<=600px){
+            .save-btn{
+                width: 90%;
+            }
+        }
+        @media(width<=320px){
+            .save-btn{
+                width: 95%;
+            }
+        }
+
+        .new-place-title{
+            text-align: center;
+            margin: 3rem 0 1rem;
+            color: #ff385c;
+            text-decoration: underline 2px wavy #ff385c;
+        }
+    </style>
+
+</head>
+
+<body>
+    <%-include('../includes/navbar.ejs')%>
+        <h1 class="page-title new-place-title" id="editing">
+            Edit Post
+        </h1>
+
+        <form action="/listings/<%= item._id %>?_method=PUT" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
+    
+            <div class="mb-3">
+                <label for="" class="form-label">Title</label>
+                <input type="text" placeholder="Enter Title" name="itemDetails[title]" class="form-control" value="<%= item.title %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Caption</label>
+            <textarea name="itemDetails[description]" id="main-info" cols="30"
+                rows="10" class="form-control" required><%= item.description.trim()%></textarea>
+                <div class="invalid-feedback">
+                    Looks bad!
+                  </div>
+            </div>
+            <div  class="mb-3">
+
+                <img src="  <%= OrgImgUrl %> " alt="" class="list-img">
+
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Image Url</label>
+            <input type="file" placeholder="Upload New Image" name="itemDetails[image][url]" class="form-control" value="<%= item.image.url %>">
+            </div>
+            <!-- <div class="mb-3">
+                <label for="" class="form-label">Price</label>
+            <input type="number" placeholder="Enter Price" name="itemDetails[price]" class="form-control" value="<%= item.price %>" required>
+            </div> -->
+         
+            <!-- <div class="row">
+                <div class="mb-3 col-md-6">
+                    <label for="" class="form-label">Location</label>
+                <input type="text" placeholder="Enter Location" name="itemDetails[location]" class="form-control" value="<%= item.location%>" required>
+                </div>
+     
+                <div class="mb-3 col-md-6">
+                    <label for="" class="form-label">Country</label>
+                <input type="text" placeholder="Enter Country" name="itemDetails[country]" class="form-control" value="<%= item.country %>" required>
+                </div>
+            </div> -->
+
+            <br>
+            <br>
+
+            <button class="save-btn">Save Edits</button>
+        </form>
+
+        <%- include('../includes/footer') %>
+
+
+
+
+
+</body>
+
+</html>
